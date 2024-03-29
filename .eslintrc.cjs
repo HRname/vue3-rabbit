@@ -7,5 +7,8 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
-  }
+  },
+  rules:{
+    'vue/multi-word-component-names': 0,// 不在组件名中强制使用短横线分隔
+  },
 }

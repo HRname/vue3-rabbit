@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+// 测试接口testapi
 import { getCategory } from './apis/testapi'
 getCategory().then(res => {
   console.log(res)
