@@ -17,9 +17,9 @@ export default defineConfig({
     }),
     Components({
       resolvers: [
-        ElementPlusResolver({importStyle: 'sass'})
+        ElementPlusResolver({importStyle:"sass"})
       ],
-    })
+    }),
   ],
   resolve: {
     alias: {
