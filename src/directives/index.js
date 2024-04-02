@@ -9,11 +9,13 @@ export const lazyPlugin ={
         // 懒加载指令逻辑
         app.directive('img-lazy',{
             mounted(el,binding){
-                useIntersectionObserver(el,
+                const { stop } = useIntersectionObserver(el,
                     ([{ isIntersecting }]) => {
-                        console.log(isIntersecting)
+                        // console.log(isIntersecting)
                         if(isIntersecting){
                             el.src = binding.value
+                            // 第一次完成懒加载后，取消监听
+                            stop()
                         }
                     }
                 )
