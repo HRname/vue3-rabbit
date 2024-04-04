@@ -18,6 +18,8 @@
     <LayoutFixed></LayoutFixed>
     <LayoutNav></LayoutNav>
     <LayoutHeader></LayoutHeader>
+    <!-- 使用key绑定路由路径(唯一标识)来避免元素复用从而使跳转时不更新数据 -->
+    <!-- <router-view :key="$route.fullPath"></router-view> -->
     <router-view></router-view>
     <LayoutFooter></LayoutFooter>
 </template>
