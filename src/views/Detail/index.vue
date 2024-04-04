@@ -2,11 +2,13 @@
 import { ref,onMounted } from 'vue'
 import { getDetail } from '@/apis/detail'
 import { useRoute } from 'vue-router'
+import DetailHot from './components/DetailHot.vue'
 
 const goods = ref({})
 const route = useRoute()
 const getGoods = async () => {
     const res = await getDetail(route.params.id)
+    console.log(res)
     goods.value = res.result
 }
 
@@ -15,13 +17,13 @@ onMounted(() => getGoods())
 
 <template>
   <div class="xtx-goods-page">
-    <div class="container">
+    <div class="container" v-if="goods.details">
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/${goods.categories?.[1].id}` }">{{ goods.categories?.[1].name }}
+          <el-breadcrumb-item :to="{ path: `/category/${goods.categories[1].id}` }">{{ goods.categories[1].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/${goods.categories?.[0].id}` }">{{ goods.categories?.[0].name }}
+          <el-breadcrumb-item :to="{ path: `/category/${goods.categories[0].id}` }">{{ goods.categories[0].name }}
           </el-breadcrumb-item>
           <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
         </el-breadcrumb>
@@ -52,7 +54,7 @@ onMounted(() => getGoods())
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>{{ goods.brand?.name }}</p>
+                  <p>{{ goods.brand.name }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
@@ -115,7 +117,8 @@ onMounted(() => getGoods())
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-
+                <DetailHot :hot-type="1"></DetailHot>
+                <DetailHot :hot-type="2"></DetailHot>
             </div>
           </div>
         </div>
