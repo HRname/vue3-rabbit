@@ -46,7 +46,7 @@
           <h3>- {{ item.name }}-</h3>
         </div>
         <div class="body">
-          <GoodsItem v-for="good in item.goods" :goods="good" :key="good.id" />
+          <GoodsItem v-for="goods in item.goods" :goods="goods" :key="goods.id" />
         </div>
       </div>
     </div>
