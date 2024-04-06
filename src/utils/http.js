@@ -6,7 +6,7 @@ import router from "@/router";
 
 const httpInstance = axios.create({
     baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
-    timeout: 15000,
+    timeout: 20000,
 })
 
 // 请求拦截器
@@ -14,7 +14,6 @@ httpInstance.interceptors.request.use(config => {
     // 请求头携带token,判断是否有token
     const userStore = useUserStore()
     const token = userStore.userInfo.token
-    console.log(token)
     if (token) {
         // 按后端要求，请求头携带token
         config.headers.Authorization = `Bearer ${token}`

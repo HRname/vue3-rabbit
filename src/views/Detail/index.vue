@@ -1,25 +1,54 @@
 <script setup>
-import { ref,onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getDetail } from '@/apis/detail'
 import { useRoute } from 'vue-router'
 import DetailHot from './components/DetailHot.vue'
-// import ImageView from '@/components/imageView/index.vue'
-// import XtxSku from '@/components/XtxSku/index.vue'
+import { ElMessage } from 'element-plus'
+import { useCartStore } from '@/stores/cartStore'
+import XtxSku from '@/components/XtxSku/index.vue'
 
 const goods = ref({})
 const route = useRoute()
 const getGoods = async () => {
-    const res = await getDetail(route.params.id)
-    console.log(res)
-    goods.value = res.result
+  const res = await getDetail(route.params.id)
+  goods.value = res.result
 }
 
 onMounted(() => getGoods())
 
 // sku规格被操作时
+let skuObj = {}
 const skuChange = (sku) => {
   console.log(sku)
+  skuObj = sku
 }
+
+// count
+const count = ref(1)
+const countChange = (count) => {
+  
+}
+
+// 加入购物车
+const cartStore = useCartStore()
+const addCart = () => {
+  if (skuObj.skuId) {
+    cartStore.addCart({
+      id: goods.value.id,
+      name: goods.value.name,
+      picture: goods.value.mainPictures[0],
+      price: goods.value.price,
+      count: count.value,
+      skuId: skuObj.skuId,
+      attrsText: skuObj.attrsText,
+      selected: true
+    })
+  } else {
+    ElMessage.warning('请选择商品规格')
+  }
+}
+
+
 </script>
 
 <template>
@@ -90,12 +119,12 @@ const skuChange = (sku) => {
                 </dl>
               </div>
               <!-- sku组件 -->
-              <XtxSku :goods="goods" :@change="skuChange"></XtxSku>
+              <XtxSku :goods="goods" @change="skuChange"></XtxSku>
               <!-- 数据组件 -->
-
+              <el-input-number v-model="count" @change="countChange"></el-input-number>
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn">
+                <el-button size="large" class="btn" @click="addCart">
                   加入购物车
                 </el-button>
               </div>
@@ -124,8 +153,8 @@ const skuChange = (sku) => {
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-                <DetailHot :hot-type="1"></DetailHot>
-                <DetailHot :hot-type="2"></DetailHot>
+              <DetailHot :hot-type="1"></DetailHot>
+              <DetailHot :hot-type="2"></DetailHot>
             </div>
           </div>
         </div>
